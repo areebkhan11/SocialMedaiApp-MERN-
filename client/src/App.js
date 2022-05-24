@@ -5,6 +5,7 @@ import Form from './components/form/Form'
 import { makeStyles  } from '@material-ui/core'
 import { deepPurple  } from '@material-ui/core/colors'
 import {useDispatch} from 'react-redux'
+import {getPosts} from './redux/actions/posts'
 
 
 const useStyles =  makeStyles((theme) =>({
@@ -12,7 +13,7 @@ const useStyles =  makeStyles((theme) =>({
     borderRadius: 15,
     margin: '30px 0',
     display: 'flex',
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 50px',
@@ -20,6 +21,8 @@ const useStyles =  makeStyles((theme) =>({
   heading: {
     color: 'rgba(0,183,255, 1)',
     textDecoration: 'none',
+    
+
   },
   image: {
     marginLeft: '15px',
@@ -56,8 +59,8 @@ const classes = useStyles();
 const dispatch = useDispatch();
 
 useEffect(()=>{
-
-},[])
+  dispatch(getPosts())
+},[dispatch])
 
 
 
@@ -65,7 +68,7 @@ useEffect(()=>{
   return (
     <Container maxWidth="lg">
       <AppBar className={classes.appBar} position='static' color = 'inherit'>
-        <Typography className={classes.heading} variant='h2' align='center'>
+        <Typography className={classes.heading} variant='h2' alignItems="center">
           WeShare
         </Typography>
       </AppBar>
