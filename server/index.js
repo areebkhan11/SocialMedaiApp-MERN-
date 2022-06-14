@@ -6,6 +6,9 @@ import postRoutes from './routes/Posts.js'
 const app = express()
 
 app.use(cors());
+app.use(express.json)
+
+//Routes
 app.use('/posts', postRoutes)
 
 
