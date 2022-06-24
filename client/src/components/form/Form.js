@@ -38,13 +38,22 @@ export default function Form() {
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({creator:'', title:'', message:'', tags:'', selectedFile:''  });
 
-    console.log(postData, "<-----------------")
+    console.log(postData," <-------------")
 
-    const HandleSubmit = () =>{
+    const HandleSubmit = (e) =>{
+      e.preventDefault();
+      
       console.log(postData, "postData")
-      dispatch(createPost(postData))
+      
+
+      if(postData.creator && postData.title && postData.message && postData.tags && postData.selectedFile){
+
+        dispatch(createPost(postData))
+        setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''}) 
+      }
 
     }
+
     const Clear = () =>{
       console.log("Clear")
     }
