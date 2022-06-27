@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core'
 import Posts from './components/posts/Posts'
 import Form from './components/form/Form'
 import { makeStyles  } from '@material-ui/core'
-import { deepPurple  } from '@material-ui/core/colors'
 import {useDispatch} from 'react-redux'
 import {getPosts} from './redux/actions/posts'
 
@@ -27,13 +26,15 @@ export default function App() {
 
 const classes = useStyles();
 const dispatch = useDispatch();
+const [currentId, setCurrentId] = useState(null)
+
 
 useEffect(()=>{
   dispatch(getPosts())
-},[dispatch])
+},[currentId, dispatch])
 
 
-
+console.log(currentId, "currentId")
 
   return (
     <Container maxWidth="lg">
@@ -46,10 +47,10 @@ useEffect(()=>{
         <Container >
           <Grid container justify="space-between" alignItems='stretch' spacing={3}>
             <Grid item xs={12} sm={7} >
-              <Posts />
+              <Posts currentId = {currentId}  setCurrentId={setCurrentId}/>
             </Grid> 
             <Grid item xs={12} sm={4} >
-              <Form />
+              <Form currentId = {currentId} setCurrentId={setCurrentId}/>
             </Grid>  
           </Grid>  
         </Container>

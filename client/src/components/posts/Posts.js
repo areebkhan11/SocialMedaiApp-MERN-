@@ -19,7 +19,7 @@ const useStyles = makeStyles ((theme)=>({
 }))
 
 
-export default function Posts() {
+export default function Posts({setCurrentId}) {
 
 
     const posts = useSelector((state) => state.Posts)
@@ -32,7 +32,7 @@ export default function Posts() {
     <Grid className={classes.mainContainer} container alignItems='stretch' spacing={3}>
       {posts.map(post =>(
         <Grid item key={post.id} xs={12} sm={6}>
-          <Post  post={post}/>  
+          <Post  post={post} setCurrentId={setCurrentId}/>  
         </Grid>
       ))
 

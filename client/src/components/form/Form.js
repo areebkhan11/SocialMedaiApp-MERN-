@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { makeStyles  } from '@material-ui/core'
 import FileBase from 'react-file-base64'
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../redux/actions/posts';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../redux/actions/posts';
+
+
 
 const useStyles =  makeStyles((theme) =>({
     root: {
@@ -33,29 +35,36 @@ const useStyles =  makeStyles((theme) =>({
       },
   }));
 
-export default function Form() {
+export default function Form({currentId, setCurrentId}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({creator:'', title:'', message:'', tags:'', selectedFile:''  });
+    const post = useSelector((state) => currentId ?  state.Posts.find((p)=> p._id === currentId) : null )
 
-    console.log(postData," <-------------")
+
+    useEffect(()=>{
+      if(post) setPostData(post)
+
+    },[post])
 
     const HandleSubmit = (e) =>{
       e.preventDefault();
-      
-      console.log(postData, "postData")
-      
 
       if(postData.creator && postData.title && postData.message && postData.tags && postData.selectedFile){
+        if(currentId){
+          dispatch(updatePost(currentId, postData))
 
-        dispatch(createPost(postData))
-        setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''}) 
+        }else{
+          dispatch(createPost(postData))
+        }
+        Clear()
       }
-
     }
 
     const Clear = () =>{
-      console.log("Clear")
+      setCurrentId(null)
+      setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''}) 
+
     }
   
  
@@ -63,7 +72,7 @@ export default function Form() {
   return (
     <Paper className={classes.paper}>
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={HandleSubmit}>
-        <Typography variant='h6'> Creating a Post </Typography>
+        <Typography variant='h6'> {currentId ?  "Edit a Post" :  "Creating a Post"} </Typography>
         <TextField  name="creator"  variant="outlined"  label="Creator"  fullWidth value={postData.creator} onChange={(e)=> setPostData({...postData, creator:e.target.value})}  />
         <TextField  name="title"  variant="outlined"  label="Title"  fullWidth value={postData.title} onChange={(e)=> setPostData({...postData, title:e.target.value})}  />
         <TextField  name="message"  variant="outlined"  label="Message"  fullWidth value={postData.message} onChange={(e)=> setPostData({...postData, message:e.target.value})}  />
