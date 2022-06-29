@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import postRoutes from './routes/Posts.js'
+import userRoutes from './routes/Users.js'
 import dotenv from 'dotenv'
 
 
@@ -15,6 +16,7 @@ app.use(express.json())
 
 //Routes
 app.use('/posts', postRoutes)
+app.use('/users', userRoutes)
 
 
 

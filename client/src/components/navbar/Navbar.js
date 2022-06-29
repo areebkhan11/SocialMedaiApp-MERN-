@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react'
 import { AppBar, Avatar, Button, Toolbar, Typography} from '@material-ui/core'; 
 import { makeStyles } from '@material-ui/core/styles';
 import { deepPurple } from '@material-ui/core/colors';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
+
 
 
 
@@ -56,7 +57,7 @@ export default function Navbar() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const location = useLocation();
 
 
     const Logout = () =>{
@@ -65,11 +66,13 @@ export default function Navbar() {
       setUser(null)
     }
 
-    // useEffect(()=>{
-    //   const user = user?.token
+    useEffect(()=>{
+      // const user = user?.token
 
-    //   setUser(JSON.parse(localStorage.getItem('profile')))
-    // },[])
+      setUser(JSON.parse(localStorage.getItem('profile')));
+
+    },[location])
+    
   return (
     <AppBar className={classes.appBar} position='static' color = 'inherit'>
         <div className={classes.brandContainer}>

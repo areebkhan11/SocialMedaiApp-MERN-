@@ -7,6 +7,7 @@ import {GoogleLogin} from 'react-google-login'
 import Input from './Input';
 import Icon from './Icon';
 import { useNavigate } from 'react-router-dom';
+import {signin, signup} from '../../redux/actions/auth'
 
 
 const useStyles =  makeStyles((theme) => ({
@@ -45,22 +46,33 @@ export default function Auth() {
   const classes = useStyles();
   const [isSignUp, setSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false)
+  const [form, setForm] = useState({firstName:"", lastName:"", email: "", password:"" , confirmPassword:"" })
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
     // for the toggle the password
     const handleShowpassword = () => setShowPassword((prevShowPassword) => !prevShowPassword) 
 
-    const HandleSubmit = () =>{
+    const HandleSubmit = (e) =>{
+      e.preventDefault()
+      if(isSignUp){
+        dispatch(signup(form, navigate));
+      }else{
+        dispatch(signin(form, navigate));
 
+      }
     }
 
-    const handleChange = () =>{
-
+    const handleChange = (e) =>{
+      console.log(form)
+      setForm({...form, [e.target.name]:e.target.value})
     }
 
     const switchMode = () =>{
       setSignup((previsSignup)=> !previsSignup)
+      setForm({...form, firstName:"", lastName:"", email: "", password:"" , confirmPassword:"" })
+
     }
 
 
@@ -69,7 +81,7 @@ export default function Auth() {
       const result = response?.profileObj;
       const token = response?.tokenId;
       try{
-        dispatch({type:"AUTH", data:{result, token}})
+        dispatch({type:"GOOGLEAUTH", data:{result, token}})
         navigate('/')
       }catch(err){
         console.log(err)
@@ -96,13 +108,13 @@ export default function Auth() {
             <Grid container spacing={2}>
               { isSignUp && (
                 <>
-                  <Input name="firstName" label="First Name" onChange={handleChange} autoFocus   /> 
-                  <Input name="lastName" label="Last Name" onChange={handleChange}   /> 
+                  <Input name="firstName" value={form.firstName} label="First Name" handleChange={handleChange} autoFocus   /> 
+                  <Input name="lastName" value={form.lastName} label="Last Name" handleChange={handleChange}   /> 
                 </>
               )}
-                  <Input name="email" label="Email Address" onChange={handleChange} autoFocus half type="email" /> 
-                  <Input name="password" label="Password" onChange={handleChange} autoFocus half type={ showPassword? "text" : "password" } handleShowpassword={handleShowpassword}/> 
-                  {isSignUp && <Input name="confirmPassword" label="Repeat Password" half type="password" onChange={handleChange}/>}
+                  <Input name="email" value={form.email} label="Email Address" handleChange={handleChange} autoFocus half type="email" /> 
+                  <Input name="password" value={form.password} label="Password" handleChange={handleChange} autoFocus half type={ showPassword? "text" : "password" } handleShowpassword={handleShowpassword}/> 
+                  {isSignUp && <Input name="confirmPassword" value={form.confirmPassword} label="Repeat Password" half type="password" handleChange={handleChange}/>}
             </Grid>
 
             <Button fullWidth type="submit" variant="contained" color="primary"  className={classes.submit}>

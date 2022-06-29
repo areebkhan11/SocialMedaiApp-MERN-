@@ -4,4 +4,5 @@ export const UPDATE = "UPDATE";
 export const DELETE = "DELETE";
 export const LIKE = "LIKE";
 export const LOGOUT = "LOGOUT";
+export const GOOGLEAUTH = "GOOGLEAUTH";
 export const AUTH = "AUTH";
