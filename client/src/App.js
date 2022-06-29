@@ -4,8 +4,15 @@ import Navbar from './components/navbar/Navbar'
 import Home from './components/home/Home'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Auth from './components/auth/Auth'
+import { gapi } from "gapi-script";
 
-
+gapi.load("client:auth2", () => {
+  gapi.client.init({
+    clientId:
+      "*****.apps.googleusercontent.com",
+    plugin_name: "chat",
+  });
+});
 
 
 export default function App() {

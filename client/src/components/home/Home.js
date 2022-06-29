@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center',
+      alignttems: 'center',
     },
     heading: {
       color: 'rgba(0,183,255, 1)',
@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <Grow in>
         <Container >
-          <Grid container justify="space-between"  className={classes.mainContainer} alignItems='stretch' spacing={3}>
+          <Grid container justify="space-between"  className={classes.mainContainer} alignitems='stretch' spacing={3}>
             <Grid item xs={12} sm={7} >
               <Posts currentId = {currentId}  setCurrentId={setCurrentId}/>
             </Grid> 
