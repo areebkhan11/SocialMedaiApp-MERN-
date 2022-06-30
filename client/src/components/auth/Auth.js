@@ -81,7 +81,8 @@ export default function Auth() {
       const result = response?.profileObj;
       const token = response?.tokenId;
       try{
-        dispatch({type:"GOOGLEAUTH", data:{result, token}})
+        console.log("success<-------------")
+        dispatch({type:"AUTH", data:{result, token}})
         navigate('/')
       }catch(err){
         console.log(err)

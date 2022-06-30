@@ -28,6 +28,9 @@ const useStyles =  makeStyles((theme) =>({
         width: '97%',
         margin: '10px 0',
       },
+      message:{
+        height:'125px'
+      },
 
       buttonSubmit: {
         marginTop:"10px",
@@ -38,9 +41,11 @@ const useStyles =  makeStyles((theme) =>({
 export default function Form({currentId, setCurrentId}) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [postData, setPostData] = useState({creator:'', title:'', message:'', tags:'', selectedFile:''  });
+    const [postData, setPostData] = useState({title:'', message:'', tags:'', selectedFile:''  });
     const post = useSelector((state) => currentId ?  state.Posts.find((p)=> p._id === currentId) : null )
+    const user = useSelector((state) => state.auth.authData);
 
+    // const user = JSON.parse(localStorage.getItem('profile'));
 
     useEffect(()=>{
       if(post) setPostData(post)
@@ -50,33 +55,37 @@ export default function Form({currentId, setCurrentId}) {
     const HandleSubmit = (e) =>{
       e.preventDefault();
 
-      if(postData.creator && postData.title && postData.message && postData.tags && postData.selectedFile){
+      if( postData.title && postData.message && postData.tags && postData.selectedFile){
         if(currentId){
           dispatch(updatePost(currentId, postData))
 
         }else{
-          dispatch(createPost(postData))
+          dispatch(createPost({...postData, name: user?.result?.name}))
         }
-        Clear()
       }
+      Clear()
     }
 
     const Clear = () =>{
       setCurrentId(null)
-      setPostData({creator:'', title:'', message:'', tags:'', selectedFile:''}) 
+      setPostData({ title:'', message:'', tags:'', selectedFile:''}) 
 
     }
+
+
   
  
 
   return (
+    <>
+    { user?.result?.name ?
     <Paper className={classes.paper}>
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={HandleSubmit}>
         <Typography variant='h6'> {currentId ?  "Edit a Post" :  "Creating a Post"} </Typography>
-        <TextField  name="creator"  variant="outlined"  label="Creator"  fullWidth value={postData.creator} onChange={(e)=> setPostData({...postData, creator:e.target.value})}  />
+       
         <TextField  name="title"  variant="outlined"  label="Title"  fullWidth value={postData.title} onChange={(e)=> setPostData({...postData, title:e.target.value})}  />
-        <TextField  name="message"  variant="outlined"  label="Message"  fullWidth value={postData.message} onChange={(e)=> setPostData({...postData, message:e.target.value})}  />
-        <TextField  name="tags"  variant="outlined"  label="Tags"  fullWidth value={postData.tags} onChange={(e)=> setPostData({...postData, tags:e.target.value.split(",")})}  />
+        <TextField  name="message" multiline maxRows={6}  variant="outlined"   label="Message"  fullWidth  value={postData.message} onChange={(e)=> setPostData({...postData, message:e.target.value})}  />
+        <TextField  name="tags"  variant="outlined"   label="Tags"  fullWidth value={postData.tags} onChange={(e)=> setPostData({...postData, tags:e.target.value.split(",")})}  />
       
       <div className={classes.fileInpiut}>
         <FileBase 
@@ -100,6 +109,14 @@ export default function Form({currentId, setCurrentId}) {
         fullWidth > Clear </Button>
       </div>
     </form>
-    </Paper>
+    </Paper> : <Paper className={classes.paper}>
+            <Typography variant='h6' align="center">
+              Please Sign in to create your own memory and like other's memory.
+
+            </Typography>
+          </Paper>
+  }
+
+</>
   )
 }

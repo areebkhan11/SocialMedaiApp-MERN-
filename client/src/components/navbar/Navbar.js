@@ -61,9 +61,9 @@ export default function Navbar() {
 
 
     const Logout = () =>{
-      dispatch({type:"LOGOUT", })
-      navigate('/')
+      dispatch({type:"LOGOUT" })
       setUser(null)
+      navigate('/')
     }
 
     useEffect(()=>{
