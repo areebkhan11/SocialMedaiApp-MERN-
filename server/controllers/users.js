@@ -21,13 +21,15 @@ export const signin = async (req, res ) =>{
     
 }
 export const signup = async (req, res ) =>{
-    const {firstname, lastname, email, password, confirmPassword} = req.body
+    const {firstName, lastName, email, password, confirmPassword} = req.body
+    console.log(req.body, "req.body")
     try{
-        const existingUser = User.findOne({email});
+        const existingUser = await User.findOne({'email': email});
+        console.log(existingUser, "existingUser")
         if(existingUser) return res.status(400).json({message: "User already exists"});
         if(password !== confirmPassword) return res.status(400).json({message: "Password does'nt match"});
         const hashedPassword = await bcrypt.hash(password, 12)
-        const result = await User.create({email, password:hashedPassword, name:`${firstname} ${lastname}`});
+        const result = await User.create({email, password:hashedPassword, name:`${firstName} ${lastName}`});
         const token = jwt.sign({emai:result, id:result._id}, "test", {expiresIn:"1h"})  
         res.status(200).json({result, token})
 

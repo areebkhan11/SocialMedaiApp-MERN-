@@ -7,6 +7,6 @@ const userSchema = mongoose.Schema({
     id:{type:String}
 })
 
-const UserMessage = mongoose.model('userMessage', userSchema )
 
-export default UserMessage
+
+export default  mongoose.model('User', userSchema )
