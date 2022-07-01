@@ -1,12 +1,12 @@
 import React from 'react'
 import  {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {Container, Grow, Grid} from '@material-ui/core'
+import {Container, Grow, Grid, Paper} from '@material-ui/core'
 import Posts from '../posts/Posts'
 import Form from '../form/Form'
 import { makeStyles  } from '@material-ui/core'
 import {getPosts} from '../../redux/actions/posts'
-
+import Paginate from '../reusable/Paginationa'
 
 
 
@@ -52,6 +52,9 @@ export default function Home() {
             </Grid> 
             <Grid item xs={12} sm={4} >
               <Form currentId = {currentId} setCurrentId={setCurrentId}/>
+              <Paper className={classes.pagination} elevatgion={6}>
+
+              </Paper>
             </Grid>  
           </Grid>  
         </Container>

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { deepPurple } from '@material-ui/core/colors';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode'
 
 
 
@@ -67,8 +68,14 @@ export default function Navbar() {
     }
 
     useEffect(()=>{
-      // const user = user?.token
+      const token = user?.token
+      const date = new Date()
+      if (token){
+        const decodedToken= decode(token);
 
+        if(decodedToken.exp * 1000 < date.getTime()) Logout() ;
+
+      }
       setUser(JSON.parse(localStorage.getItem('profile')));
 
     },[location])
@@ -84,8 +91,13 @@ export default function Navbar() {
             { user ? 
             (
                 <div className={classes.profile}>
-                    <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>  {user.result.name.charAt(0)}</Avatar>
-                    <Typography className={classes.userName} variant="h6">{user.result.name}</Typography>
+                  {user?.result?.imageUrl ?
+                    <Avatar  alt={user?.result?.name} src={user?.result?.imageUrl}>  </Avatar>:
+                    <Avatar className={classes?.purple} alt={user?.result?.name} >  {user?.result?.name?.charAt(0)}</Avatar>
+
+                    
+                  }  
+                    <Typography className={classes.userName} variant="h6">{user?.result?.name}</Typography>
                     <Button variant="contained" color='secondary' className={classes.logout} onClick={Logout}>Logout</Button>
                 </div>
 

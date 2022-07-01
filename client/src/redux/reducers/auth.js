@@ -10,7 +10,7 @@ const authReducers = (state = {authData: null}, action) =>{
             break;
         case LOGOUT:
             localStorage.clear();
-            return {...state, authData: null}
+            return {...state, authData: action?.data}
             break;
         
         default:

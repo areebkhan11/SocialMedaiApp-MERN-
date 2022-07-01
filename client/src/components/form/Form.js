@@ -43,9 +43,9 @@ export default function Form({currentId, setCurrentId}) {
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({title:'', message:'', tags:'', selectedFile:''  });
     const post = useSelector((state) => currentId ?  state.Posts.find((p)=> p._id === currentId) : null )
-    const user = useSelector((state) => state.auth.authData);
+    // const user = useSelector((state) => state.auth.authData);
 
-    // const user = JSON.parse(localStorage.getItem('profile'));
+    const user = JSON.parse(localStorage.getItem('profile'))
 
     useEffect(()=>{
       if(post) setPostData(post)
