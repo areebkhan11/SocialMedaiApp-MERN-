@@ -40,13 +40,34 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
 
     const classes = useStyles();
-    const [currentId, setCurrentId] = useState(null)
+    const [currentId, setCurrentId] = useState(null);
+    const [search, setSearch] = useState({value:""});
+    const [tags, setTags] = useState([])
     const dispatch = useDispatch();
     // const query = useQuery();
     const navigate = useNavigate();
     // const page = query.get('page') || 1;
     // const searchQuery = query.get('searchQuery');
 
+    const HandleChange =  (e) =>{
+      setSearch({...search,[e.target.name]: e.target.value})
+      console.log(search)
+    }
+
+    const handleKeypress = (e) =>{
+        if (e.keyCode === 13){
+          // search func
+          console.log("Hello")
+        }
+    }
+
+    const handleAdd = (tag) =>{
+      setTags([...tags, tag])
+    }
+
+    const handleDelete = () =>{
+
+    }
 
     useEffect(()=>{
       dispatch(getPosts())
@@ -63,7 +84,13 @@ export default function Home() {
 
             <Grid item xs={12} sm={6} md={3} >
               <AppBar className={classes.appBarSearch} position="static" color= "inherit" >
-                <TextField name='search' variant='outlined' label = "Search Posts" fullWidth value="TEST" onChange={}/>   
+                <TextField onKeyPress={handleKeypress} name='search' variant='outlined' label = "Search Posts" fullWidth value={search.value} onChange={HandleChange} />   
+                <ChipInput style={{margin:'10px 0'}}
+                  value={tags}
+                  onAdd={handleAdd}
+                  onDelete={handleDelete}
+                  label="Search Tags"
+                  variant="outlined" /> 
               </AppBar>
               <Form currentId = {currentId} setCurrentId={setCurrentId}/>
               <Paper className={classes.pagination} elevatgion={6}>
