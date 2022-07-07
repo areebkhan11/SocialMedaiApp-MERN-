@@ -12,6 +12,10 @@ export const getPosts = async  (req, res)=>{
     }
 }
 
+export const getPostsBySearch = async (req, res) =>{
+    
+}
+
 export const createPost = async (req, res) =>{
 
     const post = req.body

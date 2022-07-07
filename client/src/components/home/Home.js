@@ -7,7 +7,7 @@ import ChipInput from 'material-ui-chip-input'
 import Posts from '../posts/Posts'
 import Form from '../form/Form'
 import { makeStyles  } from '@material-ui/core'
-import {getPosts} from '../../redux/actions/posts'
+import {getPosts, getPostBySearch} from '../../redux/actions/posts'
 import Paginate from '../reusable/Paginationa'
 
 
@@ -50,25 +50,37 @@ export default function Home() {
     // const searchQuery = query.get('searchQuery');
 
     const HandleChange =  (e) =>{
-      setSearch({...search,[e.target.name]: e.target.value})
+      setSearch({...search, value: e.target.value})
       console.log(search)
     }
 
-    const handleKeypress = (e) =>{
-        if (e.keyCode === 13){
-          // search func
-          console.log("Hello")
-        }
-    }
-
+    
     const handleAdd = (tag) =>{
       setTags([...tags, tag])
     }
-
+    
     const handleDelete = () =>{
 
     }
 
+    const searchPost =() => {
+     
+      if(search.value.trim()){
+          const search = search.value
+          dispatch(getPostBySearch({search, tags: tags.join(',')}))
+      }else{
+        navigate('/')
+
+      }
+    }
+    
+    const handleKeypress = (e) =>{
+        if (e.keyCode === 13){
+          // search func
+          // console.log("Hello")
+          searchPost();
+        }
+    }
     useEffect(()=>{
       dispatch(getPosts())
     },[dispatch])
@@ -91,6 +103,7 @@ export default function Home() {
                   onDelete={handleDelete}
                   label="Search Tags"
                   variant="outlined" /> 
+                <Button onClick={searchPost} classNam={classes.searchButton} color="primary" >Search</Button>
               </AppBar>
               <Form currentId = {currentId} setCurrentId={setCurrentId}/>
               <Paper className={classes.pagination} elevatgion={6}>

@@ -25,6 +25,17 @@ export const createPost = (post) => async (dispatch) =>{
     }
 } 
 
+export const getPostBySearch = (searchQuery) => async (dispatch) =>{
+
+    try{
+        const {data} = await api.fetchPostBySearch(searchQuery)
+        console.log(data)
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
 export const updatePost = (id, post) => async (dispatch)=>{
     try{
         const {data} = await api.updatePost(id, post)
