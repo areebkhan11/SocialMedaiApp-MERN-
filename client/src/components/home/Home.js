@@ -46,12 +46,12 @@ export default function Home() {
     const dispatch = useDispatch();
     // const query = useQuery();
     const navigate = useNavigate();
-    // const page = query.get('page') || 1;
-    // const searchQuery = query.get('searchQuery');
+    const page = query.get('page') || 1;
+    const searchQuery = query.get('searchQuery');
 
     const HandleChange =  (e) =>{
       setSearch({...search, value: e.target.value})
-      console.log(search)
+   
     }
 
     
@@ -65,9 +65,11 @@ export default function Home() {
 
     const searchPost =() => {
      
-      if(search.value.trim()){
-          const search = search.value
-          dispatch(getPostBySearch({search, tags: tags.join(',')}))
+      if(search.value || tags){
+
+          
+          dispatch(getPostBySearch({search: search.value , tags: tags.join(',')}))
+          navigate(`/posts/search?searchQuery=${search.value || 'none'}&tags=${tags.join(',')}`)
       }else{
         navigate('/')
 
@@ -81,11 +83,7 @@ export default function Home() {
           searchPost();
         }
     }
-    useEffect(()=>{
-      dispatch(getPosts())
-    },[dispatch])
-    
-    
+ 
   return (
       <Grow in>
         <Container maxWidth="xl">
@@ -107,7 +105,7 @@ export default function Home() {
               </AppBar>
               <Form currentId = {currentId} setCurrentId={setCurrentId}/>
               <Paper className={classes.pagination} elevatgion={6}>
-                <Paginate />
+                <Paginate page={page} />
               </Paper>
             </Grid>  
           </Grid>  
