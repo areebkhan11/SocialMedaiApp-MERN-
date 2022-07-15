@@ -22,13 +22,16 @@ const useStyles = makeStyles ((theme)=>({
 export default function Posts({setCurrentId}) {
 
 
-    const posts = useSelector((state) => state.Posts)
+    const {posts}= useSelector((state) => state.Posts)
+
+
+
     const classes = useStyles();
 
-    console.log(posts)
+    console.log(posts, "<=---------")
 
   return (
-   !posts.length ? <CircularProgress /> :(
+   !posts?.length ? <CircularProgress /> :(
     <Grid className={classes.mainContainer} container aligntems='stretch' spacing={3}>
       {posts.map(post =>(
         <Grid item key={post.id} xs={12} sm={12} md={6} lg={3}>

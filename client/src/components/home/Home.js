@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-  // function useQuery(){
-  //   return new URLuseSearchParams(useLocation().search);
-  // }
+  function useQuery(){
+    return new URLSearchParams(useLocation().search);
+  }
 
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
     const [search, setSearch] = useState({value:""});
     const [tags, setTags] = useState([])
     const dispatch = useDispatch();
-    // const query = useQuery();
+    const query = useQuery();
     const navigate = useNavigate();
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');

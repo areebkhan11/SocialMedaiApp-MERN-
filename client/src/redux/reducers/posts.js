@@ -4,11 +4,22 @@ import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} from '../../co
 
 export default (state = [], action)=>{
     switch(action.type){
+        
         case FETCH_ALL :  
-        return action.payload;
-
+    
+        return {
+            ...state,
+            posts: action.payload.data,
+            currentPage: action.payload.currentPage,
+            numberOfPages: action.payload.numberOfPages
+        }
         case FETCH_BY_SEARCH:
-            return action.payload;        
+            console.log(action.payload, "<----------------action")
+            return {
+                ...state,
+                posts: action.payload
+            }
+                    
         case CREATE :  
         return [...state, action.payload];
         

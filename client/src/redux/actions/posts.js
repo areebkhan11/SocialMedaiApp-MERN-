@@ -8,14 +8,13 @@ import * as api from '../../api/index'
 export const getPosts = (page) => async (dispatch) => {
     try{
         const {data} = await api.fetchPosts(page);
+        
+
         dispatch({type : FETCH_ALL, payload: data})
     }catch(error){
         console.log(error.message)
     }
-
-    
 }
-
 
 
 export const createPost = (post) => async (dispatch) =>{
@@ -28,7 +27,6 @@ export const createPost = (post) => async (dispatch) =>{
 } 
 
 export const getPostBySearch = (searchQuery) => async (dispatch) =>{
-
     try{
         const {data: {data}} = await api.fetchPostBySearch(searchQuery)
         dispatch({type: FETCH_BY_SEARCH , payload: data})

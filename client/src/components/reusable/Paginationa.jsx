@@ -20,26 +20,28 @@ const useStyles = makeStyles({
 
 
 const Paginate = ({page}) =>{
+
+
+    const {numberOfPages} = useSelector((state)=> state.Posts || [])
+   
     const classes = useStyles();
     const dispatch = useDispatch(page);
 
     useEffect(()=>{
         if(page){
-            dispatch(getPosts)
+            dispatch(getPosts(page))
         }
-
-
     },[page]);
 
     return(
         <Pagination 
             classes={{ul: classes.ul}}
-            count={5}
-            page={1}
-            variant={1}
+            count={numberOfPages}
+            page={Number(page) || 1}
+            variant="outlined"
             color="primary"
             renderItem={(item)=>(
-                <PaginationItem {...item} component={Link} to={`/posts?pages=${1}`}/>
+                <PaginationItem {...item} component={Link} to={`/posts?pages=${item.page}`}/>
             )}
         />
     )
