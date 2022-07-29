@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-router.get('/',getPosts );
+router.get('/', getPosts );
 router.get('/search',getPostsBySearch );
 router.post('/',auth, createPost);
 router.patch('/:id',auth, updatePost);

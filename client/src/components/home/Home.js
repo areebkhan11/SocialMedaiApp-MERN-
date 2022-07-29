@@ -10,8 +10,6 @@ import { makeStyles  } from '@material-ui/core'
 import {getPosts, getPostBySearch} from '../../redux/actions/posts'
 import Paginate from '../reusable/Paginationa'
 
-
-
 const useStyles = makeStyles((theme) => ({
   appBarSearch: {
     borderRadius: 4,
@@ -46,8 +44,10 @@ export default function Home() {
     const dispatch = useDispatch();
     const query = useQuery();
     const navigate = useNavigate();
-    const page = query.get('page') || 1;
+    const page = query.get('pages') || 1;
     const searchQuery = query.get('searchQuery');
+
+    console.log(page, "page")
 
     const HandleChange =  (e) =>{
       setSearch({...search, value: e.target.value})

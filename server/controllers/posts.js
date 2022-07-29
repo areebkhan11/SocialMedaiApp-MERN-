@@ -3,7 +3,7 @@ import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async  (req, res)=>{
     const {page} = req.query;
-    console.log(req.query, "req.query")
+    
     try{
         const LIMIT = 8;
         const startIndex =(Number(page) - 1 ) * LIMIT; 
