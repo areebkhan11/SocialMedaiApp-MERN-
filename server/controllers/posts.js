@@ -17,6 +17,24 @@ export const getPosts = async  (req, res)=>{
     }
 }
 
+export const getPost = async  (req, res)=>{
+    const {id} = req.params;
+    
+    try{
+        const LIMIT = 8;
+        const startIndex =(Number(page) - 1 ) * LIMIT; 
+        const total = await PostMessage.countDocuments({});
+        const post = await PostMessage.findById(id)
+        
+        res.status(200).json( post);
+
+    }catch(err){
+        res.status(404).json({message: error.message});
+    }
+}
+
+
+
 export const getPostsBySearch = async (req, res) =>{
 
     const {searchQuery, tags} = req.query

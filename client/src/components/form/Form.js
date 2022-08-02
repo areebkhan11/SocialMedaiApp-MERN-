@@ -79,7 +79,7 @@ export default function Form({currentId, setCurrentId}) {
   return (
     <>
     { user?.result?.name ?
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={HandleSubmit}>
         <Typography variant='h6'> {currentId ?  "Edit a Post" :  "Creating a Post"} </Typography>
        
